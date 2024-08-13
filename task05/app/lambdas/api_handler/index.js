@@ -2,7 +2,7 @@ const { v4: uuidv4 } = require("uuid");
 const AWS = require("aws-sdk");
 
 const docClient = new AWS.DynamoDB.DocumentClient();
-const tableName = "cmtr-31f1a922-Events";
+const tableName = "cmtr-31f1a922-Events-test";
 
 exports.handler = async (event) => {
   const params = {
