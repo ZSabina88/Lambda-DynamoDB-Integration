@@ -4,7 +4,6 @@ const uuid = require('uuid');
 const dynamo = new AWS.DynamoDB.DocumentClient();
 const tableName = 'Events';
 
-
 exports.handler = async (event) => {
     if (!event.body) {
         return {
@@ -24,23 +23,38 @@ exports.handler = async (event) => {
     }
 
     const { principalId, content } = parsedBody;
+
+    if (typeof principalId !== 'number' || !content || typeof content !== 'object') {
+        return {
+            statusCode: 400,
+            body: JSON.stringify({ error: "Missing or invalid 'principalId' or 'content'" }),
+        };
+    }
+
     const id = uuid.v4();
     const createdAt = new Date().toISOString();
-    
+
     const item = {
         id,
         principalId,
         createdAt,
         body: content
     };
-    
+
     const params = {
         TableName: tableName,
         Item: item
     };
-    
-    await dynamo.put(params).promise();
-    
+
+    try {
+        await dynamo.put(params).promise();
+    } catch (error) {
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ error: "Failed to save event to DynamoDB" }),
+        };
+    }
+
     return {
         statusCode: 201,
         body: JSON.stringify({ event: item }),
