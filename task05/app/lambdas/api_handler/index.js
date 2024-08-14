@@ -7,7 +7,7 @@ const tableName = "cmtr-31f1a922-Events-test";
 
 exports.handler = async (event) => {
     const { principalId, content } = JSON.parse(event.body);
-    const id = uuid.v4();
+    const id = uuidv4();
     const createdAt = new Date().toISOString();
 
     const item = {
