@@ -4,8 +4,26 @@ const uuid = require('uuid');
 const dynamo = new AWS.DynamoDB.DocumentClient();
 const tableName = 'Events';
 
+
 exports.handler = async (event) => {
-    const { principalId, content } = JSON.parse(event.body);
+    if (!event.body) {
+        return {
+            statusCode: 400,
+            body: JSON.stringify({ error: "Request body is missing" }),
+        };
+    }
+
+    let parsedBody;
+    try {
+        parsedBody = JSON.parse(event.body);
+    } catch (err) {
+        return {
+            statusCode: 400,
+            body: JSON.stringify({ error: "Invalid JSON in request body" }),
+        };
+    }
+
+    const { principalId, content } = parsedBody;
     const id = uuid.v4();
     const createdAt = new Date().toISOString();
     
