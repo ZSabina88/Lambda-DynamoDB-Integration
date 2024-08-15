@@ -2,16 +2,10 @@ const AWS = require('aws-sdk');
 const uuid = require('uuid');
 
 const dynamo = new AWS.DynamoDB.DocumentClient();
-const tableName = 'Events-test';
+const tableName = 'cmtr-31f1a922-Events-test';
 
 exports.handler = async (event) => {
-    if (!event.body) {
-        return {
-            statusCode: 400,
-            body: JSON.stringify({ error: "Request body is missing" }),
-        };
-    }
-
+   
     let parsedBody;
     try {
         parsedBody = JSON.parse(event.body);
