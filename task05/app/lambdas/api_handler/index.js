@@ -2,7 +2,7 @@ const AWS = require('aws-sdk');
 const uuid = require('uuid');
 
 const dynamo = new AWS.DynamoDB.DocumentClient();
-const tableName = 'Events';
+const tableName = 'events';
 
 exports.handler = async (event) => {
     if (!event.body) {
