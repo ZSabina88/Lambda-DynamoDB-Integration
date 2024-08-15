@@ -11,7 +11,7 @@
   "dependencies": [],
   "event_sources": [],
   "env_variables": {
-    "api_handler_table_name": "events"
+    "api_handler_table_name": "${target_table}"
   },
   "publish_version": false,
   "url_config": {},
